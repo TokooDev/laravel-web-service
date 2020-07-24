@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use App\Article;
+use App\Http\Controllers\Controller;
+use App\Tag;
 use Illuminate\Http\Request;
 
-class ArticleController extends Controller
+class TagController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +15,7 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        return Article::all();
+        return Tag::all();
     }
 
     /**
@@ -25,31 +26,28 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
-        $attributs = $request->all();
-        $attributs["user_id"]=5;
-        $article = Article::create($attributs);
-        return $article;
+        return Tag::create($request->all());
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Article  $article
+     * @param  \App\Tag  $tag
      * @return \Illuminate\Http\Response
      */
-    public function show(Article $article)
+    public function show(Tag $tag)
     {
-        return $article->load('user');
+        //
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Article  $article
+     * @param  \App\Tag  $tag
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Article $article)
+    public function update(Request $request, Tag $tag)
     {
         //
     }
@@ -57,10 +55,10 @@ class ArticleController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Article  $article
+     * @param  \App\Tag  $tag
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Article $article)
+    public function destroy(Tag $tag)
     {
         //
     }

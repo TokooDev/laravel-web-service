@@ -6,6 +6,8 @@ use App\Tag;
 use App\Article;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
+use App\Http\Resources\Article as ArticleResource;
 
 class ArticleController extends Controller
 {
@@ -27,6 +29,8 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), $this->rules());
+        if($validator->fails()) return response($validator->errors()->all());
         $attributs = $request->all();
         $attributs["user_id"]=10;
         $article = Article::create($attributs);
@@ -41,7 +45,7 @@ class ArticleController extends Controller
      */
     public function show(Article $article)
     {
-        return $article->load('user');
+        return response()->json(new ArticleResource($article));
     }
 
     /**
@@ -89,5 +93,12 @@ class ArticleController extends Controller
     public function commentArticle(Request $request, Article $article){
         $article->comments()->create($request->all());
         return $article;
+    }
+
+    public function rules(){
+        return[
+            'title'=> 'required | min:6',
+            'description'=> 'required'
+        ];
     }
 }
